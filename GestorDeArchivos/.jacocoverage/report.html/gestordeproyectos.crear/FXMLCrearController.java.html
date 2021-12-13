@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FXMLCrearController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GestorDeProyectos_4&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gestordeproyectos.crear</a> &gt; <span class="el_source">FXMLCrearController.java</span></div><h1>FXMLCrearController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gestordeproyectos.crear;
+
+import gestordeproyectos.funciones.FuncionesFile;
+import gestordeproyectos.funciones.FuncionesGeneral;
+import gestordeproyectos.resources.Constants;
+import gestordeproyectos.resources.SingletonPath;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
+
+/**
+ * FXML Controller class
+ *
+ * @author dani
+ */
+<span class="fc" id="L33">public class FXMLCrearController implements Initializable {</span>
+
+    public TilePane tilePane; //será null cuando lleguemos aquí desde el botón guardar
+    public TextArea textArea;
+    public String textAreaContent;
+    public Stage mainStage;
+
+    @FXML
+    private Label centeredLabel;
+
+    @FXML
+    private TextField textField;
+
+    @FXML
+    private Button createButton;
+
+    //Crear Archivo/Directorio al darle al botón 'Crear'
+    public void crear(MouseEvent m) {
+<span class="fc" id="L51">        SingletonPath instancia = SingletonPath.getInstance();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (textArea != null) {</span>
+<span class="fc" id="L53">            textAreaContent = textArea.getText();</span>
+        }
+        try {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if (centeredLabel.getText().contains(Constants.file)) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                if (tilePane != null) {</span>
+<span class="fc" id="L58">                    FuncionesFile.crearFichero(instancia.getPath() + textField.getText() + &quot;.txt&quot;);</span>
+                } else {
+<span class="fc" id="L60">                    FuncionesFile.crearActualizarFichero(instancia.getPath() + textField.getText() + &quot;.txt&quot;, textAreaContent);</span>
+                }
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            } else if (centeredLabel.getText().contains(Constants.directory)) {</span>
+<span class="fc" id="L63">                FuncionesFile.crearDirectorio(instancia.getPath() + textField.getText());</span>
+            }
+            //Cerramos la ventana de crear
+<span class="fc" id="L66">            FuncionesGeneral.closeWindow(m);</span>
+            //Limpiamos el TilePane que muestra todos los archivos y volvemos a llamar a la función de mostrar.
+            //Si hemos llegado hasta aqui desde 'guardar' el tilePane será null. No lo será si hemos llegado con ContextMenu.
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            if (tilePane != null) {</span>
+<span class="fc" id="L70">                FuncionesGeneral.refresh(tilePane, mainStage, textArea);</span>
+            } else {
+<span class="fc" id="L72">                instancia.setSelectedFile(textField.getText() + &quot;.txt&quot;);</span>
+<span class="fc" id="L73">                mainStage.setTitle(textField.getText() + &quot;.txt&quot;);</span>
+            }
+<span class="nc" id="L75">        } catch (IOException ex) {</span>
+<span class="nc" id="L76">            Logger.getLogger(FXMLCrearController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L77">        }</span>
+<span class="fc" id="L78">    }</span>
+
+    //Solo permitir que se introduzcan letras en el TextField
+    @FXML
+    private void checkIntroduced(KeyEvent e) {
+<span class="fc" id="L83">        FuncionesGeneral.onlyLetters(e);</span>
+<span class="fc" id="L84">    }</span>
+
+    //Habilitar y deshabilitar el botón de crear dependiendo si hay texto o no
+    @FXML
+    private void disableEnableCreateButton(KeyEvent e) {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (textField.getText().isEmpty()) {</span>
+<span class="fc" id="L90">            createButton.setDisable(true);</span>
+        } else {
+<span class="fc" id="L92">            createButton.setDisable(false);</span>
+        }
+<span class="fc" id="L94">    }</span>
+
+    //Cerrar ventana con Cancel
+    @FXML
+    private void cancel(MouseEvent e) {
+<span class="fc" id="L99">        FuncionesGeneral.closeWindow(e);</span>
+<span class="fc" id="L100">    }</span>
+
+    //Cambiamos el valor del Label para mostrarlo. Guardamos el TilePane para usarlo después (limpiar y actualizar).
+    public void setValues(String s, TextArea textarea, TilePane tp, Stage st) {
+<span class="fc" id="L104">        centeredLabel.setText(&quot;Create &quot; + s);</span>
+<span class="fc" id="L105">        tilePane = tp;</span>
+<span class="fc" id="L106">        textArea = textarea;</span>
+<span class="fc" id="L107">        mainStage = st;</span>
+<span class="fc" id="L108">    }</span>
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+//        No podemos actualizar aquí el texto del label a 'CREATE Folder/Directory' porque
+//        existe delay. Tenemos que hacerlo en una función aparte, que se ejecute antes del show
+//        de este stage (initialize). Esta función es 'setValues(String, TilePane)'.
+<span class="fc" id="L115">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

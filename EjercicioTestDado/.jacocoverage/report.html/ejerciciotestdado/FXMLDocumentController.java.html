@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FXMLDocumentController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EjercicioTestDado&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ejerciciotestdado</a> &gt; <span class="el_source">FXMLDocumentController.java</span></div><h1>FXMLDocumentController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ejerciciotestdado;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+/**
+ *
+ * @author dani
+ */
+<span class="fc" id="L23">public class FXMLDocumentController implements Initializable {</span>
+
+<span class="fc" id="L25">    private int seconds = 0;</span>
+    private Timeline timeline;
+
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private Button btnStart;
+
+    @FXML
+    private Button btnStop;
+
+    @FXML
+    private void start() {
+<span class="nc" id="L39">        timeline.play();</span>
+<span class="nc" id="L40">    }</span>
+
+    @FXML
+    private void stop() {
+<span class="nc" id="L44">        timeline.stop();</span>
+<span class="nc" id="L45">        seconds = 0;</span>
+<span class="nc" id="L46">    }</span>
+
+    private void running() {
+<span class="fc" id="L49">        timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), (event) -&gt; {</span>
+<span class="nc" id="L50">            seconds++;</span>
+<span class="nc" id="L51">            imageView.setImage(new Image(EjercicioTestDado.class.getResource(&quot;resources/&quot; + (seconds % 6) + &quot;.png&quot;).toString()));</span>
+<span class="nc" id="L52">        }));</span>
+<span class="fc" id="L53">        timeline.setCycleCount(Animation.INDEFINITE);</span>
+<span class="fc" id="L54">    }</span>
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+<span class="fc" id="L59">        running();</span>
+<span class="fc" id="L60">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

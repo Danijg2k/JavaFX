@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestordeproyectos.about.FXMLAboutController">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <VBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextArea editable="false" prefHeight="0.0" prefWidth="600.0" text="Esta aplicacion ha sido creada por Daniel Jimenez Gutierrez, esta diseñada para permitir crear, modificar y borrar archivos. " wrapText="true" />
+                  <Label fx:id="label" alignment="CENTER" prefHeight="16.0" prefWidth="612.0" text="CopyRight © DAM 2 21/22" textAlignment="CENTER" />
+               </children>
+            </VBox>
+         </bottom>
+         <center>
+            <Pane fx:id="pane" prefHeight="342.0" prefWidth="496.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="imageView" fitHeight="329.0" fitWidth="653.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../resources/images/Ubuntu-Logo.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

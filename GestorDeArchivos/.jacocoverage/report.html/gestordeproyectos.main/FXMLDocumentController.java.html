@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FXMLDocumentController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GestorDeProyectos_4&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gestordeproyectos.main</a> &gt; <span class="el_source">FXMLDocumentController.java</span></div><h1>FXMLDocumentController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gestordeproyectos.main;
+
+import gestordeproyectos.funciones.FuncionesFile;
+import gestordeproyectos.funciones.FuncionesLoad;
+import gestordeproyectos.resources.Constants;
+import gestordeproyectos.resources.SingletonPath;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author dani
+ */
+<span class="fc" id="L25">public class FXMLDocumentController implements Initializable {</span>
+
+    public Stage mainStage;
+
+    @FXML
+    public TextArea content;
+
+    @FXML
+    private void toAbout(ActionEvent e) {
+        //Abrimos el FXML de about
+<span class="fc" id="L35">        FuncionesLoad.loadFXML(Constants.titleAbout, Constants.aboutFXML, Modality.WINDOW_MODAL);</span>
+<span class="fc" id="L36">    }</span>
+
+    @FXML
+    private void toFile(ActionEvent e) {
+<span class="fc" id="L40">        SingletonPath instancia = SingletonPath.getInstance();</span>
+<span class="fc" id="L41">        instancia.resetPath();</span>
+        //Abrimos la siguiente ventana, pasando el stage a la vez
+<span class="fc" id="L43">        FuncionesLoad.loadFileWithStage(mainStage, content);</span>
+<span class="fc" id="L44">    }</span>
+
+    @FXML
+    private void saveFile(ActionEvent e) {
+<span class="fc" id="L48">        SingletonPath instancia = SingletonPath.getInstance();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (mainStage.getTitle().equals(Constants.titleMain)) {</span>
+<span class="fc" id="L50">            instancia.resetPath();</span>
+            //Cargamos la ventana de crear, con el TilePane null (no vamos a mostrar tras crear)
+<span class="fc" id="L52">            FuncionesLoad.loadCreateWithParams(Constants.file, content, null, mainStage);</span>
+        } else {
+            //Si se tiene un archivo seleccionado, se sobrescribirá directamente
+<span class="fc" id="L55">            FuncionesFile.crearActualizarFichero(instancia.getSelectedFile(), content.getText());</span>
+        }
+<span class="fc" id="L57">    }</span>
+
+    @FXML
+    private void deleteFile(ActionEvent e) {
+<span class="fc" id="L61">        SingletonPath instancia = SingletonPath.getInstance();</span>
+        //Si el título no es &quot;NUEVO ARCHIVO&quot; borramos el fichero actual
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!mainStage.getTitle().equals(Constants.titleMain)) {</span>
+<span class="fc" id="L64">            FuncionesFile.borrarFichero(instancia.getSelectedFile());</span>
+            //No creo que sea necesario, pero lo quitamos.
+<span class="fc" id="L66">            instancia.setSelectedFile(null);</span>
+        }
+<span class="fc" id="L68">        newFile(e);</span>
+<span class="fc" id="L69">    }</span>
+
+    @FXML
+    private void newFile(ActionEvent e) {
+<span class="fc" id="L73">        cleanContent();</span>
+<span class="fc" id="L74">        resetTitle();</span>
+<span class="fc" id="L75">    }</span>
+
+    //Limpiar TextArea
+    public void cleanContent() {
+<span class="fc" id="L79">        content.setText(&quot;&quot;);</span>
+<span class="fc" id="L80">    }</span>
+
+    //Poner &quot;NUEVO ARCHIVO&quot; como título
+    public void resetTitle() {
+<span class="fc" id="L84">        mainStage.setTitle(Constants.titleMain);</span>
+<span class="fc" id="L85">    }</span>
+
+    public void setParams(Stage st) {
+<span class="fc" id="L88">        mainStage = st;</span>
+<span class="fc" id="L89">    }</span>
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+<span class="fc" id="L94">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

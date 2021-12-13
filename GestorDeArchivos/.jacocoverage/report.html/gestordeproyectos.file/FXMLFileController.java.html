@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FXMLFileController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GestorDeProyectos_4&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gestordeproyectos.file</a> &gt; <span class="el_source">FXMLFileController.java</span></div><h1>FXMLFileController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gestordeproyectos.file;
+
+import gestordeproyectos.funciones.FuncionesContextMenu;
+import gestordeproyectos.funciones.FuncionesFile;
+import gestordeproyectos.funciones.FuncionesGeneral;
+import gestordeproyectos.funciones.FuncionesShow;
+import gestordeproyectos.resources.Constants;
+import gestordeproyectos.resources.SingletonPath;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
+
+/**
+ *
+ *
+ * @author dani
+ */
+<span class="fc" id="L31">public class FXMLFileController implements Initializable {</span>
+
+    private Stage stage;
+    private TextArea textArea;
+
+    @FXML
+    private TilePane pane;
+
+    public TilePane getTilePane() {
+<span class="fc" id="L40">        return pane;</span>
+    }
+
+    @FXML
+    private void goBack(MouseEvent e) {
+<span class="fc" id="L45">        SingletonPath instancia = SingletonPath.getInstance();</span>
+        //Si estamos en la raíz (primera altura) cerramos ventana
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (instancia.getPath().equals(Constants.rootDirectory + &quot;/&quot;)) {</span>
+<span class="fc" id="L48">            FuncionesGeneral.closeWindow(e);</span>
+        } //Si no, retrocedemos una altura, volvemos a mostrar archivos, y actualizamos ruta (título superior)
+        else {
+            try {
+<span class="fc" id="L52">                instancia.removeFolder();</span>
+<span class="fc" id="L53">                FuncionesGeneral.refresh(pane, stage, textArea);</span>
+<span class="fc" id="L54">                FuncionesGeneral.changeTitle(e, instancia.getPath());</span>
+<span class="nc" id="L55">            } catch (IOException ex) {</span>
+<span class="nc" id="L56">                Logger.getLogger(FXMLFileController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L57">            }</span>
+        }
+<span class="fc" id="L59">    }</span>
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        //Tenemos que poner este código en una función, y no podemos aqui, ya que el initialize
+        //sucede lo primero, y todavía no tendríamos el stage que traemos de archivos anteriores
+        //para seguir utilizándolo, a no ser que lo hagamos tal y como hemos dicho. Ejecutamos
+        //la función desde la creación de instancia, en la misma función que iniciamos este controller.
+<span class="fc" id="L67">    }</span>
+
+    public void filesMainCode(TilePane tp, Stage st, TextArea textarea) {
+<span class="fc" id="L70">        stage = st;</span>
+<span class="fc" id="L71">        textArea = textarea;</span>
+        //Creamos el directorio raíz en caso de que no esté creado
+<span class="fc" id="L73">        FuncionesFile.crearDirectorio(Constants.rootDirectory);</span>
+        //Cada vez que abrimos FILES mostramos sus contenidos (a la altura de la raíz)
+        try {
+<span class="fc" id="L76">            FuncionesShow.recogerArchivos(tp, st, textarea);</span>
+<span class="nc" id="L77">        } catch (IOException ex) {</span>
+<span class="nc" id="L78">            Logger.getLogger(FXMLFileController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L79">        }</span>
+        //Con esto ya asignamos para siempre el ContextMenu al TilePane
+<span class="fc" id="L81">        FuncionesContextMenu.ContextMenuCrear(tp, st, textarea);</span>
+<span class="fc" id="L82">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

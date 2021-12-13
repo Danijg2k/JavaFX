@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+
+<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="480.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="posibleexamenv2.FXMLDocumentController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Pane prefHeight="110.0" prefWidth="630.0" style="-fx-background-color: aqua;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="34.0" layoutY="23.0" text="Usuario: Daniel Jiménez Gutiérrez" />
+                  <Label layoutX="34.0" layoutY="75.0" text="Lives: " />
+                  <Label layoutX="34.0" layoutY="48.0" text="Time:" />
+                  <Label fx:id="time" layoutX="85.0" layoutY="48.0" text="Label" />
+                  <Label fx:id="lives" layoutX="85.0" layoutY="75.0" text="Label" />
+               </children>
+            </Pane>
+         </top>
+         <center>
+            <TilePane fx:id="tilePane" prefHeight="447.0" prefWidth="630.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

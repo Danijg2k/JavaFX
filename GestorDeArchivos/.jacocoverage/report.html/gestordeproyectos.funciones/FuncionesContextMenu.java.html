@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FuncionesContextMenu.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GestorDeProyectos_4&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gestordeproyectos.funciones</a> &gt; <span class="el_source">FuncionesContextMenu.java</span></div><h1>FuncionesContextMenu.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gestordeproyectos.funciones;
+
+import gestordeproyectos.resources.Constants;
+import gestordeproyectos.resources.SingletonPath;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author dani
+ */
+<span class="nc" id="L28">public class FuncionesContextMenu {</span>
+
+    public static void ContextMenuCrear(TilePane tp, Stage st, TextArea textarea) {
+        //Creamos ContextMenu
+<span class="fc" id="L32">        ContextMenu contextMenu = new ContextMenu();</span>
+<span class="fc" id="L33">        MenuItem crearArchivo = new MenuItem(Constants.createFile);</span>
+<span class="fc" id="L34">        crearArchivo.setId(&quot;crearArchivo&quot;);</span>
+<span class="fc" id="L35">        MenuItem crearCarpeta = new MenuItem(Constants.createDirectory);</span>
+<span class="fc" id="L36">        crearCarpeta.setId(&quot;crearCarpeta&quot;);</span>
+<span class="fc" id="L37">        contextMenu.getItems().addAll(crearArchivo, crearCarpeta);</span>
+        //Mostrar ContextMenu con click derecho
+<span class="fc" id="L39">        tp.setOnContextMenuRequested((ContextMenuEvent e) -&gt; {</span>
+<span class="fc" id="L40">            contextMenu.show(tp, e.getScreenX(), e.getScreenY());</span>
+<span class="fc" id="L41">        });</span>
+        //Ocultar ContextMenu cuando clickeamos fuera
+<span class="fc" id="L43">        tp.setOnMousePressed((event) -&gt; {</span>
+<span class="fc" id="L44">            hide(contextMenu);</span>
+<span class="fc" id="L45">        });</span>
+        //Le damos click a Crear Archivo
+<span class="fc" id="L47">        crearArchivo.setOnAction((event) -&gt; {</span>
+<span class="fc" id="L48">            FuncionesLoad.loadCreateWithParams(Constants.file, textarea, tp, st);</span>
+<span class="fc" id="L49">        });</span>
+        //Le damos click a Crear Carpeta
+<span class="fc" id="L51">        crearCarpeta.setOnAction((event) -&gt; {</span>
+<span class="fc" id="L52">            FuncionesLoad.loadCreateWithParams(Constants.directory, textarea, tp, st);</span>
+<span class="fc" id="L53">        });</span>
+<span class="fc" id="L54">    }</span>
+
+    public static void ContextMenuBorrar(String opcion, TilePane tp, BorderPane bp, Stage st, TextArea textarea, File f) {
+<span class="fc" id="L57">        SingletonPath instancia = SingletonPath.getInstance();</span>
+        //Creamos ContextMenu
+<span class="fc" id="L59">        ContextMenu contextMenu = new ContextMenu();</span>
+<span class="fc" id="L60">        MenuItem borrar = new MenuItem(Constants.delete);</span>
+<span class="fc" id="L61">        borrar.setId(&quot;borrar&quot;);</span>
+<span class="fc" id="L62">        contextMenu.getItems().addAll(borrar);</span>
+        //Mostrar ContextMenu con click derecho
+<span class="fc" id="L64">        bp.setOnContextMenuRequested((ContextMenuEvent e) -&gt; {</span>
+<span class="fc" id="L65">            contextMenu.show(bp, e.getScreenX(), e.getScreenY());</span>
+<span class="fc" id="L66">            e.consume();</span>
+<span class="fc" id="L67">        });</span>
+        //Ocultar ContextMenu cuando clickeamos fuera
+<span class="fc" id="L69">        bp.setOnMousePressed((event) -&gt; {</span>
+<span class="fc" id="L70">            hide(contextMenu);</span>
+<span class="fc" id="L71">        });</span>
+        //Le damos click a borrar
+<span class="fc" id="L73">        borrar.setOnAction((event) -&gt; {</span>
+            try {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">                if (opcion.equals(Constants.file)) {</span>
+                    //Borramos el archivo
+<span class="fc" id="L77">                    FuncionesFile.borrarFichero(instancia.getPath() + f.getName());</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">                } else if (opcion.equals(Constants.directory)) {</span>
+                    //Borramos el directorio
+<span class="fc" id="L80">                    FuncionesFile.borrarDirectorio(instancia.getPath() + f.getName());</span>
+                }
+                //Volvemos a mostrar
+<span class="fc" id="L83">                FuncionesGeneral.refresh(tp, st, textarea);</span>
+                //Si el archivo que tenemos en el main Stage (con su nombre en el título y contenido en TextArea)
+                //se ha borrado, resetearemos dicha ventana.
+<span class="pc bpc" id="L86" title="1 of 4 branches missed.">                if (instancia.getSelectedFile() != null &amp;&amp; !Files.exists(Paths.get(instancia.getSelectedFile()))) {</span>
+<span class="fc" id="L87">                    st.setTitle(Constants.titleMain);</span>
+<span class="fc" id="L88">                    textarea.setText(&quot;&quot;);</span>
+                }
+<span class="nc" id="L90">            } catch (IOException ex) {</span>
+<span class="nc" id="L91">                Logger.getLogger(FuncionesShow.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L92">            }</span>
+<span class="fc" id="L93">        });</span>
+<span class="fc" id="L94">    }</span>
+
+    //Ocultar ContextMenu
+    private static void hide(ContextMenu c) {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (c.isShowing()) {</span>
+<span class="fc" id="L99">            c.hide();</span>
+        }
+<span class="fc" id="L101">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

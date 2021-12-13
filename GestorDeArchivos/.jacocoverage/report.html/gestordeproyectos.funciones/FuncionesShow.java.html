@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FuncionesShow.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GestorDeProyectos_4&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gestordeproyectos.funciones</a> &gt; <span class="el_source">FuncionesShow.java</span></div><h1>FuncionesShow.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gestordeproyectos.funciones;
+
+import gestordeproyectos.GestorDeProyectos;
+import gestordeproyectos.resources.Constants;
+import gestordeproyectos.resources.SingletonPath;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author dani
+ */
+<span class="nc" id="L36">public class FuncionesShow {</span>
+
+    public static void recogerArchivos(TilePane tp, Stage st, TextArea textarea) throws IOException {
+<span class="fc" id="L39">        SingletonPath instancia = SingletonPath.getInstance();</span>
+<span class="fc" id="L40">        Path path = Paths.get(instancia.getPath());</span>
+        List&lt;Path&gt; result;
+        //Si no especificamos el '1' va a mostrar todos los directorios y subdirectorios.
+        //Ese 1 indica que solo se cojan los que se encuentran a la primera altura/profundidad 1.
+<span class="pc" id="L44">        try (Stream&lt;Path&gt; walk = Files.walk(path, 1)) {</span>
+<span class="fc" id="L45">            result = walk.collect(Collectors.toList());</span>
+<span class="pc bpc" id="L46" title="6 of 8 branches missed.">        }</span>
+<span class="fc" id="L47">        recorrerArchivos(result, tp, st, textarea);</span>
+        //'result' contiene -&gt; archivos y directorios de carpeta que pasemos como parámetro (FILES)
+<span class="fc" id="L49">    }</span>
+
+    private static void recorrerArchivos(List&lt;Path&gt; result, TilePane tp, Stage st, TextArea textarea) {
+        //Mostramos contenido de result excepto primer elemento (también muestra la propia carpeta FILES; queremos evitarlo)
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (int i = 1; i &lt; result.size(); i++) {</span>
+<span class="fc" id="L54">            mostrarArchivo(result, i, tp, st, textarea);</span>
+        }
+<span class="fc" id="L56">    }</span>
+
+    private static void mostrarArchivo(List&lt;Path&gt; result, int i, TilePane tp, Stage st, TextArea textarea) {
+<span class="fc" id="L59">        ImageView imageview = null;</span>
+<span class="fc" id="L60">        BorderPane bp = new BorderPane();</span>
+<span class="fc" id="L61">        Text text = new Text();</span>
+        //Pasamos el path a FILE, para ver si es archivo o directorio
+<span class="fc" id="L63">        File f = result.get(i).toFile();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (f.isDirectory()) {</span>
+<span class="fc" id="L65">            imageview = getImageView(Constants.directory);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        } else if (f.isFile()) {</span>
+<span class="fc" id="L67">            imageview = getImageView(Constants.file);</span>
+        }
+        //Ponemos su nombre y añadimos foto+nombre al panel
+<span class="fc" id="L70">        text.setText(f.getName());</span>
+<span class="fc" id="L71">        bp.setCenter(imageview);</span>
+<span class="fc" id="L72">        bp.setBottom(text);</span>
+        //Centramos el texto de los BorderPane que vamos generando
+<span class="fc" id="L74">        BorderPane.setAlignment(text, Pos.CENTER);</span>
+        //Ponemos padding a cada BorderPane, para que se separen las imágenes y texto
+<span class="fc" id="L76">        bp.setPadding(new Insets(10, 10, 10, 10));</span>
+        //Si es archivo ponemos la id archivotxt (quitando el punto, que da problemas)
+<span class="fc" id="L78">        String s = f.getName();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (s.contains(&quot;.&quot;)) {</span>
+<span class="fc" id="L80">            s = s.replace(&quot;.&quot;, &quot;&quot;);</span>
+        }
+<span class="fc" id="L82">        bp.setId(s);</span>
+        //Añadimos el panel al TilePane
+<span class="fc" id="L84">        tp.getChildren().add(bp);</span>
+        //Añadimos la funcionalidad de seleccionar archivos o carpetas con doble click, y añadimos ContextMenu borrar.
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (f.isFile()) {</span>
+<span class="fc" id="L87">            dobleClickArchivo(bp, text, st, textarea);</span>
+<span class="fc" id="L88">            FuncionesContextMenu.ContextMenuBorrar(Constants.file, tp, bp, st, textarea, f);</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        } else if (f.isDirectory()) {</span>
+<span class="fc" id="L90">            dobleClickDirectorio(bp, text, tp, st, textarea);</span>
+<span class="fc" id="L91">            FuncionesContextMenu.ContextMenuBorrar(Constants.directory, tp, bp, st, textarea, f);</span>
+        }
+<span class="fc" id="L93">    }</span>
+
+    private static void dobleClickArchivo(BorderPane bp, Text text, Stage st, TextArea textarea) {
+<span class="fc" id="L96">        bp.setOnMouseClicked((event) -&gt; {</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            if (event.getClickCount() == 2) {</span>
+<span class="fc" id="L98">                SingletonPath instancia = SingletonPath.getInstance();</span>
+                //Actualizamos título del DocumentController (ponemos el nombre del fichero)
+<span class="fc" id="L100">                st.setTitle(text.getText());</span>
+                //Guardamos ruta del archivo, por si queremos borrarlo o actualizarlo después
+<span class="fc" id="L102">                instancia.setSelectedFile(text.getText());</span>
+                //Actualizamos el textArea con el contenido del archivo
+                try {
+                    //Recogemos contenido archivo
+<span class="fc" id="L106">                    byte[] bytes = Files.readAllBytes(Paths.get(instancia.getSelectedFile()));</span>
+<span class="fc" id="L107">                    String contenidoArchivo = new String(bytes, StandardCharsets.UTF_8);</span>
+                    //Lo ponemos en el textArea
+<span class="fc" id="L109">                    textarea.setText(contenidoArchivo);</span>
+<span class="nc" id="L110">                } catch (IOException ex) {</span>
+<span class="nc" id="L111">                    Logger.getLogger(FuncionesShow.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L112">                }</span>
+                //Cerramos la ventana
+<span class="fc" id="L114">                FuncionesGeneral.closeWindow(event);</span>
+            }
+<span class="fc" id="L116">        });</span>
+<span class="fc" id="L117">    }</span>
+
+    private static void dobleClickDirectorio(BorderPane bp, Text text, TilePane tp, Stage st, TextArea textarea) {
+<span class="fc" id="L120">        bp.setOnMouseClicked((event) -&gt; {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            if (event.getClickCount() == 2) {</span>
+<span class="fc" id="L122">                SingletonPath instancia = SingletonPath.getInstance();</span>
+                try {
+                    //Calculamos la nueva ruta
+<span class="fc" id="L125">                    instancia.addFolder(text.getText());</span>
+                    //Cambiamos el título de la ventana
+<span class="fc" id="L127">                    FuncionesGeneral.changeTitle(event, instancia.getPath());</span>
+                    //Mostramos ruta actualizada
+<span class="fc" id="L129">                    FuncionesGeneral.refresh(tp, st, textarea);</span>
+<span class="nc" id="L130">                } catch (IOException ex) {</span>
+<span class="nc" id="L131">                    Logger.getLogger(FuncionesShow.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L132">                }</span>
+            }
+<span class="fc" id="L134">        });</span>
+<span class="fc" id="L135">    }</span>
+
+    //Función auxiliar de mostrarArchivos()
+    public static ImageView getImageView(String s) {
+<span class="fc" id="L139">        ImageView imageview = new ImageView();</span>
+<span class="fc" id="L140">        imageview.setFitHeight(100);</span>
+<span class="fc" id="L141">        imageview.setFitWidth(100);</span>
+        //Ponemos el icono de archivo o de carpeta, según lo que le pasemos como parámetro
+<span class="fc" id="L143">        Image image = new Image(GestorDeProyectos.class.getResource(&quot;resources/images/&quot; + s + &quot;.png&quot;).toString());</span>
+<span class="fc" id="L144">        imageview.setImage(image);</span>
+<span class="fc" id="L145">        return imageview;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

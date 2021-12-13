@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SingletonPath.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GestorDeProyectos_4&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">gestordeproyectos.resources</a> &gt; <span class="el_source">SingletonPath.java</span></div><h1>SingletonPath.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gestordeproyectos.resources;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author dani
+ */
+public class SingletonPath {
+
+    private String archivoSeleccionado;
+    private String rutaActualString;
+    private final ArrayList&lt;String&gt; rutaActual;
+    private static SingletonPath instancia;
+
+    public static SingletonPath getInstance() {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L23">            instancia = new SingletonPath();</span>
+        }
+<span class="fc" id="L25">        return instancia;</span>
+    }
+
+    //Cada vez que llamamos a este constructor creamos el ArrayList solo con el elemento &quot;FILES&quot;
+<span class="fc" id="L29">    private SingletonPath() {</span>
+<span class="fc" id="L30">        rutaActual = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L31">        rutaActual.add(Constants.rootDirectory);</span>
+<span class="fc" id="L32">    }</span>
+
+    //Resetear la ruta (dejar solo un elemento: &quot;FILES&quot;)
+    public void resetPath() {
+<span class="fc" id="L36">        rutaActual.clear();</span>
+<span class="fc" id="L37">        rutaActual.add(Constants.rootDirectory);</span>
+<span class="fc" id="L38">    }</span>
+
+    //Añadir una carpeta a la ruta
+    public void addFolder(String s) {
+<span class="fc" id="L42">        rutaActual.add(s);</span>
+<span class="fc" id="L43">    }</span>
+
+    //Hacer que la ruta retroceda en una
+    public void removeFolder() {
+<span class="fc" id="L47">        rutaActual.remove(rutaActual.size() - 1);</span>
+<span class="fc" id="L48">    }</span>
+
+    //Devuelve la ruta actual en cadena
+    public String getPath() {
+<span class="fc" id="L52">        rutaActualString = &quot;&quot;;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (int i = 0; i &lt; rutaActual.size(); i++) {</span>
+<span class="fc" id="L54">            rutaActualString += rutaActual.get(i) + &quot;/&quot;;</span>
+        }
+<span class="fc" id="L56">        return rutaActualString;</span>
+    }
+
+    //Guardamos la ruta del archivo en el que damos doble click
+    public void setSelectedFile(String s) {
+<span class="fc" id="L61">        archivoSeleccionado = getPath() + s;</span>
+<span class="fc" id="L62">    }</span>
+
+    //Devuelve la ruta del archivo
+    public String getSelectedFile() {
+<span class="fc" id="L66">        return archivoSeleccionado;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
